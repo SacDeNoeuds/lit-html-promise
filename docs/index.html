@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo − lit-html-promise</title>
+  <link rel="stylesheet" href="./demo.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/prismjs@1.25.0/themes/prism-okaidia.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+  <link rel="manifest" href="./assets/site.webmanifest">
+</head>
+<body>
+  <small class="bg-image-credit card">
+    Credits: 📸 by <a href="https://pixabay.com/fr/users/lnlnln-1131094/">LNLNLN</a> − Hosted by <a href="https://pixabay.com/fr/photos/port-lac-architecture-vacances-6587129/">Pixabay</a> ❤️
+  </small>
+  <div class="content">
+    <div class="demo"></div>
+    <hr class="demo-source-separator">
+    <div class="card sources-container">
+      <h3>Source code</h3>
+      <div class="sources" style="display: none">
+        <div>
+          <h4>Using a mapper object</h4>
+          <pre><code id="mapper-obj-code" class="language-ts"></code></pre>
+          <script>
+            window.SOURCE_READY = 0
+            window.setSourceReady = () => {
+              window.SOURCE_READY += 1
+              if (window.SOURCE_READY === 2) document.querySelector('.sources').style.display = ''
+            }
+            window.displaySourceCode = (path, element) => {
+              return fetch(path)
+                .then((response) => response.text())
+                .then((code) => element.textContent = code.replace('../src/main', 'lit-html-promise'))
+                .then(() => Prism.highlightElement(element))
+                .then(() => setSourceReady())
+            }
+            (function () {
+              const element = document.getElementById('mapper-obj-code')
+              window.displaySourceCode('./example.mapper-object.ts', element)
+            })()
+          </script>
+        </div>
+
+        <div>
+          <h4>Using a mapper function</h4>
+          <pre><code id="mapper-fn-code" class="language-ts"></code></pre>
+          <script>
+            (function () {
+              const element = document.getElementById('mapper-fn-code')
+              window.displaySourceCode('./example.mapper-fn.ts', element)
+            })()
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./assets/demo.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1.25.0/prism.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-typescript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1.25.0/plugins/show-language/prism-show-language.min.js"></script>
+</body>
+</html>
