@@ -5,9 +5,9 @@
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/SacDeNoeuds)
 
-# `lit-html-promise`
+# ![Logo](https://github.com/SacDeNoeuds/lit-html-promise/blob/main/docs/assets/favicon-32x32.png) `lit-html-promise`
 
-![Logo](./docs/favicon-16x16.png) `lit-html` directive to map a promise
+`lit-html` directive to map a promise
 
 ## Installation
 
