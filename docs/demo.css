@@ -1,0 +1,122 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-image: url('https://cdn.pixabay.com/photo/2021/08/30/21/29/port-6587129_1280.jpg');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+}
+* {
+  font-family: Ubunto mono, 'Courier New', Courier, monospace;
+}
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+.bg-image-credit.card {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0;
+  border-bottom-left-radius: 0.25rem;
+}
+.demo {
+  padding-top: 2rem;
+  margin: auto;
+  max-width: 90vw;
+}
+.content {
+  margin: auto;
+  padding-bottom: 1rem;
+}
+.content > * + * {
+  margin-top: 1rem;
+}
+
+.card {
+  padding: 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  background: rgba(255, 255, 255, 0.7);
+}
+.overlay {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+.demo-source-separator {
+  margin: 2.5rem 0;
+  border: none;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.7);
+}
+.menu fieldset {
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.menu button {
+  margin: 0.25rem 0;
+}
+.example > * + * {
+  margin-top: 1rem;
+} 
+.example-title {
+  padding: 0.5rem 0;
+}
+.example-subtitle {
+  padding: 0.25rem 0;
+}
+.example-body {
+  padding: 1rem 0;
+}
+.title {
+  margin-bottom: 0.5rem;
+}
+.sources-container {
+  max-width: calc(90vw - 2rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+.sources {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.sources > * + * {
+  margin-left: 0.5rem;
+}
+.sources > * {
+  margin-bottom: 0.5rem;
+  flex: 1;
+  max-width: calc(90vw - 2rem);
+}
+@media (min-width: 80em) {
+  .demo {
+    max-width: 60rem;
+  }
+  .demo > * + * {
+    margin-top: 0;
+    margin-left: 1rem;
+  }
+  .demo {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+  }
+  .example {
+    flex: 1;
+  }
+  .sources > * {
+    max-width: calc(49%);
+  }
+}
