@@ -7,7 +7,7 @@
 
 # ![Logo](https://github.com/SacDeNoeuds/lit-html-promise/blob/main/docs/assets/favicon-32x32.png) `lit-html-promise`
 
-`lit-html` directive to map a promise
+`lit-html` directive to map a promise − [Demo](https://sacdenoeuds.github.io/lit-html-promise/)
 
 ## Installation
 
