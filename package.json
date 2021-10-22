@@ -1,6 +1,6 @@
 {
   "name": "lit-html-promise",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "lit-html directive to map promise",
   "main": "lib/main.cjs.js",
   "module": "lib/main.esm.js",
