@@ -40,27 +40,40 @@ const toMappers = (mapper) => {
 class PromiseDirective extends d {
     promise;
     previousValue;
+    async = idle();
     render(promise, mapper) {
-        if (!promise)
-            this.previousValue = undefined;
-        if (this.promise === promise)
-            return b;
-        if (this.promise)
-            cancelled.add(this.promise);
         const mappers = toMappers(mapper);
+        if (this.promise === promise)
+            return this.mapState(mappers);
+        else if (this.promise)
+            cancelled.add(this.promise);
         this.promise = promise;
+        this.async = this.promise ? pending(this.previousValue) : idle();
         this.promise
-            ?.then((result) => {
-            this.previousValue = result;
-            this.safeSetValue(promise, mappers.fulfilled?.(result));
+            ?.then((value) => {
+            this.safeSetValue(mappers, fulfilled(value), promise);
         })
-            ?.catch((error) => this.safeSetValue(promise, mappers.rejected?.(error)));
-        return this.promise ? mappers.pending?.(this.previousValue) : mappers.idle?.();
+            ?.catch((error) => {
+            this.safeSetValue(mappers, rejected(error), promise);
+        });
+        return this.mapState(mappers);
     }
-    safeSetValue(promise, value) {
-        if (!promise || cancelled.has(promise))
+    mapState(mappers) {
+        switch (this.async.state) {
+            case 'idle': return mappers.idle?.();
+            case 'pending': return mappers.pending?.(this.previousValue);
+            case 'rejected': return mappers.rejected?.(this.async.error);
+            case 'fulfilled': {
+                this.previousValue = this.async.value;
+                return mappers.fulfilled?.(this.async.value);
+            }
+        }
+    }
+    safeSetValue(mappers, async, promise) {
+        if (promise && cancelled.has(promise))
             return;
-        this.setValue(value);
+        this.async = async;
+        this.setValue(this.mapState(mappers));
     }
 }
 const promise = e$1(PromiseDirective);

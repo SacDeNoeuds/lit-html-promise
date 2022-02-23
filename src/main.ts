@@ -33,26 +33,41 @@ const toMappers = (mapper: Mapper | Mappers): Mappers => {
 class PromiseDirective extends AsyncDirective {
   promise: Maybe<Promise<any>>
   previousValue: Maybe<any>
+  async: AsyncValue<any> = idle()
 
   render(promise: Maybe<Promise<any>>, mapper: Mappers | Mapper) {
-    if (!promise) this.previousValue = undefined
-    if (promise !== this.promise && this.promise) cancelled.add(this.promise)
-    
     const mappers = toMappers(mapper)
-    this.promise = promise
-    this.promise
-      ?.then((result) => {
-        this.previousValue = result
-        this.safeSetValue(promise, mappers.fulfilled?.(result))
-      })
-      ?.catch((error) => this.safeSetValue(promise, mappers.rejected?.(error)))
+    if (this.promise === promise) return this.mapState(mappers)
+    else if (this.promise) cancelled.add(this.promise)
 
-    return this.promise ? mappers.pending?.(this.previousValue) : mappers.idle?.()
+    this.promise = promise
+    this.async = this.promise ? pending(this.previousValue) : idle()
+    this.promise
+      ?.then((value) => {
+        this.safeSetValue(mappers, fulfilled(value), promise)
+      })
+      ?.catch((error) => {
+        this.safeSetValue(mappers, rejected(error), promise)
+      })
+    return this.mapState(mappers)
   }
 
-  safeSetValue(promise: Maybe<Promise<any>>, value: any): void {
-    if (!promise || cancelled.has(promise)) return
-    this.setValue(value)
+  mapState(mappers: Mappers) {
+    switch (this.async.state) {
+      case 'idle': return mappers.idle?.()
+      case 'pending': return mappers.pending?.(this.previousValue)
+      case 'rejected': return mappers.rejected?.(this.async.error)
+      case 'fulfilled': {
+        this.previousValue = this.async.value
+        return mappers.fulfilled?.(this.async.value)
+      }
+    }
+  }
+
+  safeSetValue(mappers: Mappers, async: AsyncValue<any>, promise: Maybe<Promise<any>>): void {
+    if (promise && cancelled.has(promise)) return
+    this.async= async
+    this.setValue(this.mapState(mappers))
   }
 }
 
