@@ -1,7 +1,6 @@
-import { noChange } from 'lit-html'
 import { AsyncDirective, directive } from 'lit-html/async-directive.js'
 
-type AsyncValue<Value = any, E = Error> =
+export type AsyncValue<Value = any, E = Error> =
   | { state: 'idle' }
   | { state: 'pending', value: Value | undefined }
   | { state: 'fulfilled', value: Value }
@@ -37,8 +36,7 @@ class PromiseDirective extends AsyncDirective {
 
   render(promise: Maybe<Promise<any>>, mapper: Mappers | Mapper) {
     if (!promise) this.previousValue = undefined
-    if (this.promise === promise) return noChange
-    if (this.promise) cancelled.add(this.promise)
+    if (promise !== this.promise && this.promise) cancelled.add(this.promise)
     
     const mappers = toMappers(mapper)
     this.promise = promise
